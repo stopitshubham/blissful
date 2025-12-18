@@ -1,10 +1,4 @@
-<?php
-session_start();
-if(!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true){
-    header("Location: login.php");
-    exit();
-}
-?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -425,6 +419,18 @@ body.light .modal-body {
 
   </style>
 </head>
+<script>
+  // protect admin page (PHP session replacement)
+  if (localStorage.getItem("adminLoggedIn") !== "true") {
+    window.location.href = "login.html";
+  }
+
+  // optional: auto logout after 15 minutes
+  setTimeout(() => {
+    localStorage.removeItem("adminLoggedIn");
+    window.location.href = "login.html";
+  }, 15 * 60 * 1000);
+</script>
 
 <body>
 
@@ -450,7 +456,7 @@ body.light .modal-body {
             </div>
           </div>
 
-          <a href="logout.php" class="logout-btn">Logout</a>
+<a href="#" class="logout-btn" onclick="logout()">Logout</a>
 
         </div>
       </div>
@@ -808,6 +814,12 @@ body.light .modal-body {
     setInterval(loadMessages,10000);
 
   </script>
+<script>
+  function logout(){
+    localStorage.removeItem("adminLoggedIn");
+    window.location.href = "login.html";
+  }
+</script>
 
 </body>
 </html>
